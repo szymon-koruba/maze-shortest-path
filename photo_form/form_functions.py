@@ -3,18 +3,19 @@ import cv2
 class formatting_function:
 
     def __init__(self):
-        pass
+        self.path = None
 
-    def read_picture(self,path):
-        picture = cv2.imread(path)
+
+    def read_picture(self):
+        picture = cv2.imread(self.path)
         return picture
 
-    def smooth_edges(self,picture):
+    def smooth_edges(self, picture):
         smoothed_image = cv2.bilateralFilter(picture, 11, 30, 30)
         return smoothed_image
 
-    def image_binarization(self, path):
-        file = self.read_picture(path)
+    def image_binarization(self):
+        file = self.read_picture()
         picture = self.smooth_edges(file)
         bin_picture = cv2.Canny(self.smooth_edges(picture), 255, 0)
         return bin_picture
@@ -22,7 +23,7 @@ class formatting_function:
 
 
 
-test=formatting_function()
+test = formatting_function()
 
 screen2 = test.read_picture('screen_0.jpg')
 
