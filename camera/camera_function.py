@@ -46,6 +46,8 @@ class Camera:
             os.makedirs(folder_path, exist_ok=True)
             file_path = os.path.join(folder_path, file_name)
             os.rename(file_name, file_path)
+            return file_path
+
 
 
 camera = Camera()
