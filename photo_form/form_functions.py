@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 
 class formatting_function:
@@ -20,6 +21,10 @@ class formatting_function:
         picture = self.smooth_edges(file)
         bin_picture = cv2.Canny(self.smooth_edges(picture), 255, 0)
         return bin_picture
+
+
+
+
 
 
 
