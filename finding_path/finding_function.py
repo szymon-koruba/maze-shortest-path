@@ -8,7 +8,7 @@ from collections import Counter
 
 test = ff.formatting_function()
 
-screen0 = test.image_binarization('test_2.jpg')
+screen0 = test.binaryzation('skoski.jpg')
 cv2.imshow('Zdjęcie', screen0)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
@@ -74,8 +74,6 @@ class Finding_best_way_out:
         left_out = self.calculating_outliers(left)
         right_out = self.calculating_outliers(right)
 
-        print(left_out)
-
         return up_out, down_out, left_out, right_out
 
     def finding_columns_for_outliners(self, image):
@@ -106,30 +104,42 @@ class Finding_best_way_out:
                 if i == col:
                     out_row_r.append(row)
 
-        print('out',out_row_l)
-        print('lf:',left_out)
-
         return out_col_u, out_col_d, out_row_l, out_row_r
+
+    def choose_two_longest_vectors(self, image):
+        out_col_u, out_col_d, out_row_l, out_row_r = self.finding_columns_for_outliners(image)
+        vectors = [out_col_u, out_col_d, out_row_l, out_row_r]
+        vector_names = ['out_col_u', 'out_col_d', 'out_row_l', 'out_row_r']
+
+        lengths = [len(vec) for vec in vectors]
+        sorted_indices = np.argsort(lengths)[::-1]
+
+        longest_vectors = [vectors[sorted_indices[0]], vectors[sorted_indices[1]]]
+        longest_vector_names = [vector_names[sorted_indices[0]], vector_names[sorted_indices[1]]]
+        return longest_vector_names
 
 
 
     def calculating_best_start_goal_point(self, image):
         out_col_u, out_col_d, out_row_l, out_row_r = self.finding_columns_for_outliners(image)
+        x = self.choose_two_longest_vectors(image)
+        print(x)
+
         mean_val_up = None
-        if len(out_col_u) != 0:
+        if len(out_col_u) != 0 and 'out_col_u' in x:
             mean_val_up = int(round(st.mean(out_col_u), 0))
 
         mean_val_down = None
-        if len(out_col_d) != 0:
+        if len(out_col_d) != 0 and 'out_col_d' in x:
             mean_val_down = int(round(st.mean(out_col_d), 0))
 
         mean_val_left = None
-        if len(out_row_l) != 0:
+        if len(out_row_l) and 'out_row_l' in x:
             mean_val_left = int(round(st.mean(out_row_l), 0))
             print( mean_val_left)
 
         mean_val_right = None
-        if len(out_row_r) != 0:
+        if len(out_row_r) != 0 and 'out_row_r' in x:
             mean_val_right = int(round(st.mean(out_row_r), 0))
 
         print(mean_val_up, mean_val_down, mean_val_left, mean_val_right
@@ -148,7 +158,6 @@ class Finding_best_way_out:
 
         counter = Counter(left_row)
         left_common = counter.most_common(1)[0][0]
-        print(left_common)
 
         counter = Counter(right_row)
         right_common = counter.most_common(1)[0][0]
@@ -179,47 +188,6 @@ class Finding_best_way_out:
         print(start,finish)
         return start, finish
 
-
-    def dijkstra_algorithm(self,maze, start, end):
-        rows, cols = len(maze), len(maze[0])
-        distances = [[float('inf')] * cols for _ in range(rows)]
-        distances[start[0]][start[1]] = 0
-        pq = [(0, start)]
-        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]  # 4 possible movements (up, down, left, right)
-
-        while pq:
-            curr_dist, curr_pos = heapq.heappop(pq)
-
-            if curr_pos == end:
-                break
-
-            for direction in directions:
-                new_row = curr_pos[0] + direction[0]
-                new_col = curr_pos[1] + direction[1]
-
-                if 0 <= new_row < rows and 0 <= new_col < cols and maze[new_row][new_col] == 255:
-                    new_dist = curr_dist + 1
-                    if new_dist < distances[new_row][new_col]:
-                        distances[new_row][new_col] = new_dist
-                        heapq.heappush(pq, (new_dist, (new_row, new_col)))
-
-        # Reconstructing the shortest path
-        path = []
-        if distances[end[0]][end[1]] != float('inf'):
-            current = end
-            while current != start:
-                path.append(current)
-                for direction in directions:
-                    prev_row = current[0] - direction[0]
-                    prev_col = current[1] - direction[1]
-                    if 0 <= prev_row < rows and 0 <= prev_col < cols and distances[prev_row][prev_col] + 1 == \
-                            distances[current[0]][current[1]]:
-                        current = (prev_row, prev_col)
-                        break
-            path.append(start)
-            path.reverse()
-
-        return path
 
 
 
