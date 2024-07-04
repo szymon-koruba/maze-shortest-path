@@ -47,12 +47,3 @@ class Camera:
             file_path = os.path.join(folder_path, file_name)
             os.rename(file_name, file_path)
             return file_path
-
-
-
-camera = Camera()
-camera.get_camera_source()
-while True:
-    camera.show_content()
-    camera.make_screen()
-    camera.turn_off_camera()
