@@ -8,6 +8,8 @@ class Camera:
         self.ret = None
         self.frame = None
         self.screenshot_counter = 0
+        self.screen = None
+        self.filename = None
 
     def get_camera_source(self):
         self.cap = cv2.VideoCapture(0)
@@ -27,11 +29,10 @@ class Camera:
 
     def make_screen(self):
         if self.ret and cv2.waitKey(1) & 0xFF == ord(' '):
-            filename = f'screen_{self.screenshot_counter}.jpg'
-            screen = (cv2.imwrite(filename, self.frame))
+            self.filename = f'screen_{self.screenshot_counter}.jpg'
+            self.screen = (cv2.imwrite(self.filename, self.frame))
             self.screenshot_counter += 1
-            self.screen_save(screen, filename)
-            return screen, filename
+            self.screen_save()
 
     def full_part(self):
         self.get_camera_source()
@@ -40,10 +41,9 @@ class Camera:
             self.make_screen()
             self.turn_off_camera()
 
-    def screen_save(self, screen, file_name):
-        if screen:
+    def screen_save(self):
+        if self.screen:
             folder_path = os.path.join(os.getcwd(), 'screens')
             os.makedirs(folder_path, exist_ok=True)
-            file_path = os.path.join(folder_path, file_name)
-            os.rename(file_name, file_path)
-            return file_path
+            file_path = os.path.join(folder_path, self.filename)
+            os.rename(self.filename, file_path)

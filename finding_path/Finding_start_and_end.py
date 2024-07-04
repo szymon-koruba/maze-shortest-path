@@ -18,10 +18,15 @@ class FindingBestWayOut:
         self.right_col = None
 
     def finding_the_nearest_outlier_pixel_value(self, image):
-        self.up = {col: next(row for row in range(image.shape[0]) if image[row, col] == 0) for col in range(image.shape[1]) if any(image[row, col] == 0 for row in range(image.shape[0]))}
-        self.left = {row: next(col for col in range(image.shape[1]) if image[row, col] == 0) for row in range(image.shape[0]) if any(image[row, col] == 0 for col in range(image.shape[1]))}
-        self.down = {col: next(row for row in reversed(range(image.shape[0])) if image[row, col] == 0) for col in range(image.shape[1]) if any(image[row, col] == 0 for row in range(image.shape[0]))}
-        self.right = {row: next(col for col in reversed(range(image.shape[1])) if image[row, col] == 0) for row in range(image.shape[0]) if any(image[row, col] == 0 for col in range(image.shape[1]))}
+        self.up = {col: next(row for row in range(image.shape[0]) if image[row, col] == 0) for col in
+                   range(image.shape[1]) if any(image[row, col] == 0 for row in range(image.shape[0]))}
+        self.left = {row: next(col for col in range(image.shape[1]) if image[row, col] == 0) for row in
+                     range(image.shape[0]) if any(image[row, col] == 0 for col in range(image.shape[1]))}
+        self.down = {col: next(row for row in reversed(range(image.shape[0])) if image[row, col] == 0) for col in
+                     range(image.shape[1]) if any(image[row, col] == 0 for row in range(image.shape[0]))}
+        self.right = {row: next(col for col in reversed(range(image.shape[1])) if image[row, col] == 0) for row in
+                      range(image.shape[0]) if any(image[row, col] == 0 for col in range(image.shape[1]))}
+
 
     def taking_out_important_data(self, image):
         self.finding_the_nearest_outlier_pixel_value(image)
@@ -33,6 +38,8 @@ class FindingBestWayOut:
         self.left_col = list(self.left.values())
         self.right_row = list(self.right.keys())
         self.right_col = list(self.right.values())
+
+        print('up:',self.up,'down:',self.down)
 
     def calculating_outliers(self, data):
         np_data = np.array(data)
@@ -49,12 +56,14 @@ class FindingBestWayOut:
         down_out = self.calculating_outliers(self.down_row)
         left_out = self.calculating_outliers(self.left_col)
         right_out = self.calculating_outliers(self.right_col)
+
         return up_out, down_out, left_out, right_out
+
 
     def finding_columns_for_outliers(self):
         up_out, down_out, left_out, right_out = self.finding_outliers()
-        out_col_up = [col for i in up_out for row, col in self.up.items() if i == row]
-        out_col_down = [col for i in down_out for row, col in self.down.items() if i == row]
+        out_col_up = [row for i in up_out for row, col in self.up.items() if i == col]
+        out_col_down = [row for i in down_out for row, col in self.down.items() if i == col]
         out_row_left = [row for i in left_out for row, col in self.left.items() if i == col]
         out_row_right = [row for i in right_out for row, col in self.right.items() if i == col]
         return out_col_up, out_col_down, out_row_left, out_row_right
