@@ -1,4 +1,3 @@
-
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.graphics import Rectangle
@@ -6,9 +5,6 @@ from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from kivy.uix.image import Image
-
-
-
 
 
 class GuideScreen(GridLayout):
@@ -27,7 +23,7 @@ class GuideScreen(GridLayout):
     def background(self):
 
         with self.canvas.before:
-            self.rect = Rectangle(source='stsrt)screen_2.png', pos=self.pos)
+            self.rect = Rectangle(source='../graphics/background.png', pos=self.pos)
             self.bind(size=self.update_background, pos=self.update_background)
 
     def update_background(self, *args):
@@ -35,15 +31,16 @@ class GuideScreen(GridLayout):
         self.rect.pos = self.pos
 
     def guide_tekst(self):
-        img = Image(source='gate.jpg')
+        img = Image(source='../graphics/gate.jpg')
         self.add_widget(img)
 
     def buttons(self):
         button_layout = FloatLayout(size_hint=(1, 1))
         self.bind(size=self.update_background, pos=self.update_background)
 
-        btn_back = Button(size_hint=(None, None), size=(242, 120), background_normal='button_exit.png', background_down='button_exit_down.png',
-                           pos_hint={'center_x': 0.7, 'center_y': 0.1})
+        btn_back = Button(size_hint=(None, None), size=(242, 120), background_normal='../graphics/button_back.png',
+                          background_down='../graphics/button_back_down.png',
+                          pos_hint={'center_x': 0.7, 'center_y': 0.1})
         btn_back.bind(on_press= Clock.create_trigger(self.back_main, timeout=0.2))
 
         button_layout.add_widget(btn_back)
@@ -54,3 +51,4 @@ class GuideScreen(GridLayout):
         self.clear_widgets()
         if self.back_callback:
             self.back_callback()
+
