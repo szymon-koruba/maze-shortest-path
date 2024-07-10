@@ -83,3 +83,12 @@ class FormattingFunction:
 
         return full_image
 
+    def new_cut_try(self, path):
+        self.read_picture(path)
+        self.smooth_picture()
+        self.sharper_picture()
+        self.get_edges()
+        bin = self.binaryzation()
+        return bin
+
+

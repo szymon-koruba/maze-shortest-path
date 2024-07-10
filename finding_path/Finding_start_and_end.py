@@ -2,6 +2,7 @@ import numpy as np
 import statistics as st
 from collections import Counter
 
+
 class FindingBestWayOut:
     def __init__(self):
         self.up = None
@@ -27,7 +28,6 @@ class FindingBestWayOut:
         self.right = {row: next(col for col in reversed(range(image.shape[1])) if image[row, col] == 0) for row in
                       range(image.shape[0]) if any(image[row, col] == 0 for col in range(image.shape[1]))}
 
-
     def taking_out_important_data(self, image):
         self.finding_the_nearest_outlier_pixel_value(image)
         self.up_row = list(self.up.values())
@@ -38,8 +38,6 @@ class FindingBestWayOut:
         self.left_col = list(self.left.values())
         self.right_row = list(self.right.keys())
         self.right_col = list(self.right.values())
-
-        print('up:',self.up,'down:',self.down)
 
     def calculating_outliers(self, data):
         np_data = np.array(data)
@@ -58,7 +56,6 @@ class FindingBestWayOut:
         right_out = self.calculating_outliers(self.right_col)
 
         return up_out, down_out, left_out, right_out
-
 
     def finding_columns_for_outliers(self):
         up_out, down_out, left_out, right_out = self.finding_outliers()
