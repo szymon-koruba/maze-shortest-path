@@ -4,6 +4,7 @@ from kivy.graphics import Rectangle
 from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
+
 from kivy.uix.image import Image
 from kivy.graphics.texture import Texture
 from camera.camera_function import Camera
@@ -19,7 +20,7 @@ class CameraScreen(GridLayout):
 
         self.cols = 1
         self.background()
-        self.img1 = Image(size_hint=(1, 6), size=(600, 600))
+        self.img1 = Image(size_hint=(1, 6))
         self.add_widget(self.img1)
         self.buttons()
 
@@ -31,15 +32,23 @@ class CameraScreen(GridLayout):
     def update(self, dt):
         ret, frame = self.cam.show_content(self.cap)
         if ret:
-            buf1 = cv2.flip(frame, 0)
-            buf = buf1.tostring()
-            texture1 = Texture.create(size=(frame.shape[1], frame.shape[0]), colorfmt='bgr')
-            texture1.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
-            self.img1.texture = texture1
+            if frame.shape[1] <= 640 and frame.shape[0] <= 480:
+                buf1 = cv2.flip(frame, 0)
+                buf = buf1.tostring()
+                texture1 = Texture.create(size= (frame.shape[1], frame.shape[0]), colorfmt='bgr')
+                texture1.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
+                self.img1.texture = texture1
+            elif frame.shape[1] >= 640 and frame.shape[0] >= 480:
+                cropped_image = frame[(frame.shape[0]-480):frame.shape[0], (frame.shape[1]-640):frame.shape[1]]
+                buf1 = cv2.flip(cropped_image, 0)
+                buf = buf1.tostring()
+                texture1 = Texture.create(colorfmt='bgr')
+                texture1.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
+                self.img1.texture = texture1
 
     def background(self):
         with self.canvas.before:
-            self.rect = Rectangle(source='../graphics/background.png', pos=self.pos)
+            self.rect = Rectangle(source='../graphics/background_2.png', pos=self.pos)
             self.bind(size=self.update_background, pos=self.update_background)
 
     def update_background(self, *args):

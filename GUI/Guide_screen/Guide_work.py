@@ -23,7 +23,7 @@ class GuideScreen(GridLayout):
     def background(self):
 
         with self.canvas.before:
-            self.rect = Rectangle(source='../graphics/background.png', pos=self.pos)
+            self.rect = Rectangle(source='../graphics/background_2.png', pos=self.pos)
             self.bind(size=self.update_background, pos=self.update_background)
 
     def update_background(self, *args):
