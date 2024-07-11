@@ -6,6 +6,7 @@ from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from GUI.Guide_screen.Guide_work import GuideScreen
+from GUI.Camera_screen.Camera_work import CameraScreen
 
 
 class MainScreen(GridLayout):
@@ -35,7 +36,7 @@ class MainScreen(GridLayout):
         btn_start = Button(size_hint=(None, None), size=(422, 200), background_normal='../graphics/button_start.png',
                            background_down='../graphics/button_start_down.png',
                            pos_hint={'center_x': 0.5, 'center_y': 0.6})
-        btn_start.bind()
+        btn_start.bind(on_press=Clock.create_trigger(self.show_camera_screen, timeout=0.2))
 
         btn_settings = Button(size_hint=(None, None), size=(422, 200),
                               background_normal='../graphics/button_settings.png',
@@ -67,6 +68,11 @@ class MainScreen(GridLayout):
         self.clear_widgets()
         guide_screen = GuideScreen(back_callback=self.show_main_screen)
         self.add_widget(guide_screen)
+
+    def show_camera_screen(self, instance):
+        self.clear_widgets()
+        camera_screen = CameraScreen(back_callback=self.show_main_screen)
+        self.add_widget(camera_screen)
 
     def show_main_screen(self):
         self.clear_widgets()

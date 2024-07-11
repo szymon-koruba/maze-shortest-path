@@ -17,8 +17,8 @@ class GuideScreen(GridLayout):
 
         self.cols = 1
         self.background()
-        self.buttons()
         self.guide_tekst()
+        self.buttons()
 
     def background(self):
 
@@ -31,7 +31,7 @@ class GuideScreen(GridLayout):
         self.rect.pos = self.pos
 
     def guide_tekst(self):
-        img = Image(source='../graphics/gate.jpg')
+        img = Image(size_hint=(2, 1),size=(200, 200), pos_hint={'center_x': 0.8, 'center_y': 0.2}, source='../graphics/gate.jpg')
         self.add_widget(img)
 
     def buttons(self):
