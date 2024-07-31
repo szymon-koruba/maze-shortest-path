@@ -4,10 +4,11 @@ from kivy.graphics import Rectangle
 from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
-
 from kivy.uix.image import Image
 from kivy.graphics.texture import Texture
 from camera.camera_function import Camera
+from kivy.uix.spinner import Spinner
+from kivy.uix.label import Label
 import cv2
 
 
@@ -45,6 +46,13 @@ class CameraScreen(GridLayout):
                 texture1 = Texture.create(colorfmt='bgr')
                 texture1.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
                 self.img1.texture = texture1
+            return frame
+
+
+    def screen_button_work(self, instance):
+        self.cam.make_screen()
+
+
 
     def background(self):
         with self.canvas.before:
@@ -58,20 +66,20 @@ class CameraScreen(GridLayout):
     def buttons(self):
         button_layout = FloatLayout(size_hint=(1, 1))
         self.bind(size=self.update_background, pos=self.update_background)
-        btn_make_photo = Button(size_hint=(None, None), size=(242, 120), background_normal='../graphics/button_back.png',
+        btn_back = Button(size_hint=(None, None), size=(242, 120), background_normal='../graphics/button_back.png',
                           background_down='../graphics/button_back_down.png',
                           pos_hint={'center_x': 0.2, 'center_y': 1.5})
-        btn_make_photo.bind()
+        btn_back.bind(on_press=Clock.create_trigger(self.back_main, timeout=0.2))
+
+        btn_make_photo = Button(size_hint=(None, None), size=(242, 120), background_normal='../graphics/button_screen.png',
+                          background_down='../graphics/button_screen_down.png',
+                          pos_hint={'center_x': 0.5, 'center_y': 1.5})
+        btn_make_photo.bind(on_press=Clock.create_trigger(self.screen_button_work))
 
         btn_find_path = Button(size_hint=(None, None), size=(242, 120), background_normal='../graphics/button_back.png',
                           background_down='../graphics/button_back_down.png',
-                          pos_hint={'center_x': 0.5, 'center_y': 1.5})
-        btn_find_path.bind(on_press=Clock.create_trigger(self.back_main, timeout=0.2))
-
-        btn_back = Button(size_hint=(None, None), size=(242, 120), background_normal='../graphics/button_back.png',
-                          background_down='../graphics/button_back_down.png',
                           pos_hint={'center_x': 0.8, 'center_y': 1.5})
-        btn_back.bind(on_press=Clock.create_trigger(self.back_main, timeout=0.2))
+        btn_find_path.bind()
 
         button_layout.add_widget(btn_make_photo)
         button_layout.add_widget(btn_find_path)
