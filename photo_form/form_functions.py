@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class FormattingFunction:
@@ -86,5 +85,4 @@ class FormattingFunction:
         up, left, down, right = self.getting_size_to_crop(dilated_ima)
         picture = self.painting(dilated_ima, up, left, down, right)
 
-        return up, left, down, right, dilated_ima, picture
-
+        return up, left, down, right, dilated_ima, picture, self.picture

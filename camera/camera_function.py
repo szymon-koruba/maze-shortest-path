@@ -38,18 +38,3 @@ class Camera:
             os.makedirs(folder_path, exist_ok=True)
             file_path = os.path.join(folder_path, self.filename)
             os.rename(self.filename, file_path)
-
-    def draw_rectangle(self, event, x, y, flags, param):
-        if event == cv2.EVENT_LBUTTONDOWN:
-            self.drawing = True
-            self.ix, self.iy = x, y
-
-        elif event == cv2.EVENT_MOUSEMOVE:
-            if self.drawing:
-                self.w = x - self.ix
-                self.h = y - self.iy
-
-        elif event == cv2.EVENT_LBUTTONUP:
-            self.drawing = False
-            self.w = x - self.ix
-            self.h = y - self.iy

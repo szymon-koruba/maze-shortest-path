@@ -7,6 +7,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from GUI.Guide_screen.Guide_work import GuideScreen
 from GUI.Camera_screen.Camera_work import CameraScreen
+from GUI.Choosing_screen.Chooseing_work import ChooseScreen
 
 
 class MainScreen(GridLayout):
@@ -33,23 +34,23 @@ class MainScreen(GridLayout):
         button_layout = FloatLayout(size_hint=(1, 1))
         self.bind(size=self.update_background, pos=self.update_background)
 
-        btn_start = Button(size_hint=(None, None), size=(422, 200), background_normal='../graphics/button_start.png',
+        btn_start = Button(size_hint=(None, None), size=(327, 200), background_normal='../graphics/button_start.png',
                            background_down='../graphics/button_start_down.png',
-                           pos_hint={'center_x': 0.5, 'center_y': 0.6})
-        btn_start.bind(on_press=Clock.create_trigger(self.show_camera_screen, timeout=0.2))
+                           pos_hint={'center_x': 0.5, 'center_y': 0.58})
+        btn_start.bind(on_press=Clock.create_trigger(self.show_load_photo_screen, timeout=0.2))
 
-        btn_settings = Button(size_hint=(None, None), size=(422, 200),
+        btn_settings = Button(size_hint=(None, None), size=(327, 200),
                               background_normal='../graphics/button_settings.png',
                               background_down='../graphics/button_settings_down.png',
                               pos_hint={'center_x': 0.5, 'center_y': 0.4})
         btn_settings.bind()
 
-        btn_guide = Button(size_hint=(None, None), size=(422, 200), background_normal='../graphics/button_guide.png',
+        btn_guide = Button(size_hint=(None, None), size=(327, 200), background_normal='../graphics/button_guide.png',
                            background_down='../graphics/button_guide_down.png',
-                           pos_hint={'center_x': 0.5, 'center_y': 0.2})
+                           pos_hint={'center_x': 0.5, 'center_y': 0.22})
         btn_guide.bind(on_press=Clock.create_trigger(self.show_guide_screen, timeout=0.2))
 
-        btn_exit = Button(size_hint=(None, None), size=(242, 120), background_normal='../graphics/button_exit.png',
+        btn_exit = Button(size_hint=(None, None), size=(196, 120), background_normal='../graphics/button_exit.png',
                           background_down='../graphics/button_exit_down.png',
                           pos_hint={'center_x': 0.83, 'center_y': 0.17})
         btn_exit.bind(on_press=Clock.create_trigger(self.exit_app, timeout=0.2))
@@ -69,10 +70,10 @@ class MainScreen(GridLayout):
         guide_screen = GuideScreen(back_callback=self.show_main_screen)
         self.add_widget(guide_screen)
 
-    def show_camera_screen(self, instance):
+    def show_load_photo_screen(self, instance):
         self.clear_widgets()
-        camera_screen = CameraScreen(back_callback=self.show_main_screen)
-        self.add_widget(camera_screen)
+        load_photo_screen = ChooseScreen(back_callback=self.show_main_screen)
+        self.add_widget(load_photo_screen)
 
     def show_main_screen(self):
         self.clear_widgets()

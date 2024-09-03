@@ -7,8 +7,6 @@ from kivy.clock import Clock
 from kivy.uix.image import Image
 from kivy.graphics.texture import Texture
 from camera.camera_function import Camera
-from kivy.uix.spinner import Spinner
-from kivy.uix.label import Label
 import cv2
 
 
@@ -21,14 +19,17 @@ class CameraScreen(GridLayout):
 
         self.cols = 1
         self.background()
-        self.img1 = Image(size_hint=(1, 6))
-        self.add_widget(self.img1)
-        self.buttons()
 
         self.cam = Camera()
-        self.cap = self.cam.get_camera_source()
+        if self.cam.get_camera_source() != None:
+            self.camera_available()
+            self.cap = self.cam.get_camera_source()
+            self.buttons()
+            Clock.schedule_interval(self.update, 1.0 / 33.0)
+        else:
+            self.camera_not_available()
+            self.buttons()
 
-        Clock.schedule_interval(self.update, 1.0 / 33.0)
 
     def update(self, dt):
         ret, frame = self.cam.show_content(self.cap)
@@ -48,11 +49,14 @@ class CameraScreen(GridLayout):
                 self.img1.texture = texture1
             return frame
 
+    def camera_available(self):
+        camera_layout = FloatLayout(size_hint=(1, 1))
+        self.img1 = Image(pos_hint={'center_x': 0.5, 'center_y': 0.1})
+        camera_layout.add_widget(self.img1)
+        self.add_widget(camera_layout)
 
     def screen_button_work(self, instance):
         self.cam.make_screen()
-
-
 
     def background(self):
         with self.canvas.before:
@@ -66,19 +70,19 @@ class CameraScreen(GridLayout):
     def buttons(self):
         button_layout = FloatLayout(size_hint=(1, 1))
         self.bind(size=self.update_background, pos=self.update_background)
-        btn_back = Button(size_hint=(None, None), size=(242, 120), background_normal='../graphics/button_back.png',
+        btn_back = Button(size_hint=(None, None), size=(196, 120), background_normal='../graphics/button_back.png',
                           background_down='../graphics/button_back_down.png',
-                          pos_hint={'center_x': 0.2, 'center_y': 1.5})
+                          pos_hint={'center_x': 0.2, 'center_y': 0.4})
         btn_back.bind(on_press=Clock.create_trigger(self.back_main, timeout=0.2))
 
-        btn_make_photo = Button(size_hint=(None, None), size=(242, 120), background_normal='../graphics/button_screen.png',
+        btn_make_photo = Button(size_hint=(None, None), size=(245, 150), background_normal='../graphics/button_screen.png',
                           background_down='../graphics/button_screen_down.png',
-                          pos_hint={'center_x': 0.5, 'center_y': 1.5})
+                          pos_hint={'center_x': 0.5, 'center_y': 0.4})
         btn_make_photo.bind(on_press=Clock.create_trigger(self.screen_button_work))
 
-        btn_find_path = Button(size_hint=(None, None), size=(242, 120), background_normal='../graphics/button_back.png',
+        btn_find_path = Button(size_hint=(None, None), size=(245, 150), background_normal='../graphics/button_back.png',
                           background_down='../graphics/button_back_down.png',
-                          pos_hint={'center_x': 0.8, 'center_y': 1.5})
+                          pos_hint={'center_x': 0.8, 'center_y': 0.4})
         btn_find_path.bind()
 
         button_layout.add_widget(btn_make_photo)
@@ -86,6 +90,12 @@ class CameraScreen(GridLayout):
         button_layout.add_widget(btn_back)
 
         self.add_widget(button_layout)
+
+    def camera_not_available(self):
+        picture_layout = FloatLayout(size_hint=(1, 1))
+        img = Image(size=(200, 200), pos_hint={'center_x': 0.5, 'center_y': 0.2}, source='../graphics/no_signal_picture.png')
+        picture_layout.add_widget(img)
+        self.add_widget(picture_layout)
 
     def back_main(self, instance):
         self.clear_widgets()

@@ -2,6 +2,7 @@ import heapq
 import numpy as np
 import networkx as nxt
 import matplotlib.pyplot as plt
+from skimage.draw import line
 
 
 class FindQuickestPath:
@@ -25,12 +26,11 @@ class FindQuickestPath:
                     for move in moves:
                         nx, ny = row + move[0], col + move[1]
                         if 0 <= nx < rows and 0 <= ny < cols and binary_image[nx, ny] == 1:
-
                             weight = np.sqrt((nx - row) ** 2 + (ny - col) ** 2)
                             graph.add_edge((row, col), (nx, ny), weight=weight)
         return graph
 
-    def dijkstra(self, graph, start, end, image):
+    def dijkstra(self, graph, start, end):
         distances = {node: float('inf') for node in graph.nodes()}
         predecessors = {node: None for node in graph.nodes()}
         distances[start] = 0
@@ -52,23 +52,4 @@ class FindQuickestPath:
                     distances[neighbor] = distance
                     predecessors[neighbor] = current_node
                     heapq.heappush(priority_queue, (distance, neighbor))
-
-        path = []
-        node = end
-        while node is not None:
-            path.append(node)
-            node = predecessors[node]
-
-        binary_image = (image >= 127).astype(int)
-        image_with_path = np.copy(binary_image)
-
-        for node in path:
-            row, col = node
-            image_with_path[row, col] = 0
-
-        plt.figure(figsize=(8, 8))
-        plt.imshow(image_with_path, cmap='grey')
-        plt.title('Najkrótsza ścieżka na obrazie zbinaryzowanym')
-        plt.axis('off')
-        plt.show()
-        return distances
+        return predecessors

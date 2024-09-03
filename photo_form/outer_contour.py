@@ -1,7 +1,6 @@
-from photo_form.form_functions import FormattingFunction
 import numpy as np
-import cv2
-import matplotlib.pyplot as plt
+
+
 class NewStartEndPath:
     def __init__(self):
         self.contour_img = None
@@ -20,6 +19,7 @@ class NewStartEndPath:
 
         for row, col in left.items():
             self.contour_img[row, col] = 255
+
     def finding_gaps_in_contur(self):
         rows, cols = self.contour_img.shape
         self.coordinates = []
@@ -36,7 +36,7 @@ class NewStartEndPath:
                     else:
                         continue
 
-    def paint_and_end(self, picture, up, down, right, left):
+    def paint_and_end(self, up, down, right, left, picture):
         rows, cols = self.contour_img.shape
         u_set = set((row, col) for col, row in up.items())
         d_set = set((row, col) for col, row in down.items())
@@ -90,8 +90,8 @@ class NewStartEndPath:
                             picture[min(right):max(right), end_col:start_col] = 255
         return picture
 
-    def full_class_work(self, up, down, right, left, picture, bin_picture):
-        self.creating_contour_map(up, down, right, left, bin_picture)
+    def full_class_work(self, up, down, right, left, bin_picture, picture):
+        self.creating_contour_map(up, down, right, left, picture)
         self.finding_gaps_in_contur()
-        picture_mod = self.paint_and_end(picture, up, down, right, left)
+        picture_mod = self.paint_and_end(up, down, right, left, bin_picture)
         return picture_mod
