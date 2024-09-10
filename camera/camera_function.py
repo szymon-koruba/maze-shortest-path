@@ -23,7 +23,6 @@ class Camera:
 
     def show_content(self, cap):
         self.ret, self.frame = cap.read()
-        cv2.imshow('Obraz', self.frame)
         return self.ret, self.frame
 
     def make_screen(self):

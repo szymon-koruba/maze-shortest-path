@@ -21,7 +21,7 @@ class CameraScreen(GridLayout):
         self.background()
 
         self.cam = Camera()
-        if self.cam.get_camera_source() is not None:
+        if self.cam.get_camera_source() != None:
             self.camera_available()
             self.cap = self.cam.get_camera_source()
             self.buttons_with_camera()
@@ -30,27 +30,28 @@ class CameraScreen(GridLayout):
             self.camera_not_available()
             self.buttons_without_camera()
 
+
     def update(self, dt):
         ret, frame = self.cam.show_content(self.cap)
         if ret:
             if frame.shape[1] <= 640 and frame.shape[0] <= 480:
                 buf1 = cv2.flip(frame, 0)
-                buf = buf1.tobytes()
-                texture1 = Texture.create(size=(frame.shape[1], frame.shape[0]), colorfmt='bgr')
+                buf = buf1.tostring()
+                texture1 = Texture.create(size= (frame.shape[1], frame.shape[0]), colorfmt='bgr')
                 texture1.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
                 self.img1.texture = texture1
             elif frame.shape[1] >= 640 and frame.shape[0] >= 480:
-                cropped_image = frame[(frame.shape[0] - 480):frame.shape[0], (frame.shape[1] - 640):frame.shape[1]]
+                cropped_image = frame[(frame.shape[0]-480):frame.shape[0], (frame.shape[1]-640):frame.shape[1]]
                 buf1 = cv2.flip(cropped_image, 0)
-                buf = buf1.tobytes()
-                texture1 = Texture.create(size=(640, 480), colorfmt='bgr')
+                buf = buf1.tostring()
+                texture1 = Texture.create(colorfmt='bgr')
                 texture1.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')
                 self.img1.texture = texture1
             return frame
 
     def camera_available(self):
         camera_layout = FloatLayout(size_hint=(1, 1))
-        self.img1 = Image(size_hint=(1, 1), pos_hint={'center_x': 0.5, 'center_y': 0.2})
+        self.img1 = Image(pos_hint={'center_x': 0.5, 'center_y': 0.1})
         camera_layout.add_widget(self.img1)
         self.add_widget(camera_layout)
 
@@ -77,13 +78,12 @@ class CameraScreen(GridLayout):
         btn_find_path = Button(size_hint=(None, None), size=(245, 150), background_normal='../graphics/button_back.png',
                           background_down='../graphics/button_back_down.png',
                           pos_hint={'center_x': 0.8, 'center_y': 0.4})
-        btn_find_path.bind(on_press=self.some_method)  # Bind to a method
+        btn_find_path.bind()
 
         button_layout.add_widget(btn_find_path)
         button_layout.add_widget(btn_back)
 
         self.add_widget(button_layout)
-
     def buttons_with_camera(self):
         button_layout = FloatLayout(size_hint=(1, 1))
         self.bind(size=self.update_background, pos=self.update_background)
@@ -101,14 +101,13 @@ class CameraScreen(GridLayout):
         btn_find_path = Button(size_hint=(None, None), size=(245, 150), background_normal='../graphics/button_back.png',
                           background_down='../graphics/button_back_down.png',
                           pos_hint={'center_x': 0.8, 'center_y': 0.4})
-        btn_find_path.bind(on_press=self.some_method)
+        btn_find_path.bind()
 
         button_layout.add_widget(btn_find_path)
         button_layout.add_widget(btn_back)
         button_layout.add_widget(btn_make_photo)
 
         self.add_widget(button_layout)
-
     def camera_not_available(self):
         picture_layout = FloatLayout(size_hint=(1, 1))
         img = Image(size=(200, 200), pos_hint={'center_x': 0.5, 'center_y': 0.2}, source='../graphics/no_signal_picture.png')
@@ -119,6 +118,3 @@ class CameraScreen(GridLayout):
         self.clear_widgets()
         if self.back_callback:
             self.back_callback()
-
-    def some_method(self, instance):
-        pass
