@@ -4,9 +4,10 @@ from finding_path import Finding_start_and_end as fsae
 from finding_path import finding_quickest_path as fqp
 from finding_path import showing_path as sp
 import cv2
+import matplotlib.pyplot as plt
 
 photo_form = ff.FormattingFunction()
-up, left, down, right, bin_pict, picture, main_pict = photo_form.full_form_image('plos.jpg')
+up, left, down, right, bin_pict, picture, main_pict = photo_form.full_form_image('k.png')
 
 photo_form_full = oc.NewStartEndPath()
 pict_af_form = photo_form_full.full_class_work(up, down, right, left, picture, bin_pict)

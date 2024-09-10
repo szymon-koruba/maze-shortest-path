@@ -1,16 +1,14 @@
 from kivy.app import App
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.graphics import Rectangle
 from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from GUI.Guide_screen.Guide_work import GuideScreen
-from GUI.Camera_screen.Camera_work import CameraScreen
 from GUI.Choosing_screen.Chooseing_work import ChooseScreen
 
 
-class MainScreen(GridLayout):
+class MainScreen(FloatLayout):
 
     Window.fullscreen = 'auto'
 

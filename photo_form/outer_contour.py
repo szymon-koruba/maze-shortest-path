@@ -1,4 +1,7 @@
 import numpy as np
+from photo_form import form_functions as ff
+import cv2
+
 
 
 class NewStartEndPath:
@@ -26,9 +29,9 @@ class NewStartEndPath:
         for row in range(rows):
             for col in range(cols):
                 if self.contour_img[row, col] == 255:
-                    pixel_values = [self.contour_img[row+1, col-1] == 255, self.contour_img[row+1, col] == 255,
-                                    self.contour_img[row+1, col + 1] == 255, self.contour_img[row, col+1] == 255,
-                                    self.contour_img[row - 1, col+1] == 255, self.contour_img[row - 1, col] == 255,
+                    pixel_values = [self.contour_img[row + 1, col - 1] == 255, self.contour_img[row + 1, col] == 255,
+                                    self.contour_img[row + 1, col + 1] == 255, self.contour_img[row, col + 1] == 255,
+                                    self.contour_img[row - 1, col + 1] == 255, self.contour_img[row - 1, col] == 255,
                                     self.contour_img[row - 1, col - 1] == 255, self.contour_img[row, col - 1] == 255]
                     if pixel_values.count(True) == 1:
                         self.coordinates.append((row, col))

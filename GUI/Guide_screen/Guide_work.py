@@ -1,4 +1,3 @@
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from kivy.graphics import Rectangle
 from kivy.core.window import Window
@@ -7,7 +6,7 @@ from kivy.clock import Clock
 from kivy.uix.image import Image
 
 
-class GuideScreen(GridLayout):
+class GuideScreen(FloatLayout):
 
     Window.fullscreen = 'auto'
 
