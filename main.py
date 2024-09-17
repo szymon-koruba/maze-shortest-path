@@ -7,7 +7,7 @@ import cv2
 import matplotlib.pyplot as plt
 
 photo_form = ff.FormattingFunction()
-up, left, down, right, bin_pict, picture, main_pict = photo_form.full_form_image('k.png')
+up, left, down, right, bin_pict, picture, main_pict = photo_form.full_form_image('asA.png')
 
 photo_form_full = oc.NewStartEndPath()
 pict_af_form = photo_form_full.full_class_work(up, down, right, left, picture, bin_pict)

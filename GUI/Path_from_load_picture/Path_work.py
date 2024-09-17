@@ -13,12 +13,13 @@ class PathScreen(FloatLayout):
     def __init__(self, back_callback=None, **kwargs):
         super(PathScreen, self).__init__(**kwargs)
         self.back_callback = back_callback
-        self.image_widget = None
         self.background()
         self.create_buttons()
         self.image_layout = FloatLayout(size_hint=(1, None), height=Window.height - 120)
         self.add_widget(self.image_layout)
-        self.update_image(None)
+        self.image_widget = None
+        if self.image_widget is not None:
+            self.update_image(None)
 
     def background(self):
         Window.fullscreen = 'auto'
@@ -67,8 +68,7 @@ class PathScreen(FloatLayout):
                                      pos_hint={'center_x': 0.5, 'center_y': 0.6},
                                      source=image_path)
             self.image_layout.add_widget(self.image_widget)
-            self.image_widget.center_x = self.image_layout.center_x
-            self.image_widget.y = self.image_layout.top - self.image_widget.height
+
 
     def back_main(self, instance):
         self.clear_widgets()

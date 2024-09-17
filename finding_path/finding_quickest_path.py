@@ -1,57 +1,49 @@
-import heapq
 import networkx as nxt
-
 
 class FindQuickestPath:
     def __init__(self):
         pass
-
     def binary_image_to_graph(self, image):
-        bin_img = (image >= 127).astype(int)
         gph = nxt.Graph()
-        rows, cols = bin_img.shape
+        rows, cols = image.shape
 
-        for row in range(rows):
-            for col in range(cols):
-                if bin_img[row, col] == 1:
-                    gph.add_node((row, col))
-
-        left = (-1, 0)
-        right = (1, 0)
-        up = (0, -1)
-        down = (0, 1)
+        left, right, up, down = (-1, 0), (1, 0), (0, -1), (0, 1)
 
         moves = [down, up, right, left]
         for row in range(rows):
             for col in range(cols):
-                if bin_img[row, col] == 1:
+                if image[row, col] == 255:
+                    gph.add_node((row, col))
                     for move in moves:
                         new_x, new_y = row + move[0], col + move[1]
-                        if 0 <= new_x < rows and 0 <= new_y < cols and bin_img[new_x, new_y] == 1:
+                        if 0 <= new_x < rows and 0 <= new_y < cols and image[new_x, new_y] == 255:
                             euklides_weight = pow((new_x - row) ** 2 + (new_y - col) ** 2, 1/2)
                             gph.add_edge((row, col), (new_x, new_y), weight=euklides_weight)
         return gph
 
     def dijkstra(self, graph, start, end):
-        distances = {node: float('inf') for node in graph.nodes()}
-        dist_before = {node: None for node in graph.nodes()}
-        distances[start] = 0
+        dists = {node: float('inf') for node in graph.nodes()}
+        dist_to_my_path = {node: None for node in graph.nodes()}
+        dists[start] = 0
         queue = [(0, start)]
 
         while queue:
-            distance_now, node_now = heapq.heappop(queue)
+            distance_now, node_now = min(queue)
+            queue.remove((distance_now, node_now))
+
+            if distance_now > dists[node_now]:
+                continue
 
             if distance_now == end:
                 break
 
-            if distance_now > distances[node_now]:
-                continue
-
-            for neighbor in graph.neighbors(node_now):
-                weight = graph.edges[node_now, neighbor]['weight']
-                distance = distance_now + weight
-                if distance < distances[neighbor]:
-                    distances[neighbor] = distance
-                    dist_before[neighbor] = node_now
-                    heapq.heappush(queue, (distance, neighbor))
-        return dist_before
+            for near_node_now in graph.neighbors(node_now):
+                weight = graph.edges[node_now, near_node_now]['weight']
+                suma = distance_now + weight
+                if suma < dists[near_node_now]:
+                    dists[near_node_now] = suma
+                    dist_to_my_path[near_node_now] = node_now
+                    new_node = (suma, near_node_now)
+                    queue.append(new_node)
+                    queue.sort()
+        return dist_to_my_path
