@@ -102,7 +102,7 @@ class FindingBestWayOut:
         right_common = counter.most_common(1)[0][0]
         return up_common, down_common, left_common, right_common
 
-    def find_start_and_goal(self):
+    def find_start_and_goal(self, image):
         c_u, c_d, r_l, r_r = self.calculating_best_start_goal_point()
         r_u, r_d, c_l, c_r = self.finding_missing_index()
         start, finish = None, None
@@ -123,9 +123,12 @@ class FindingBestWayOut:
                 finish = (r_r, c_r)
             else:
                 start = (r_r, c_r)
+        if finish is None:
+            high, width = image.shape
+            finish = (int(high/2), int(width/2))
         return start, finish
 
     def full_start_and_end(self, image):
         self.taking_out_important_data(image)
-        start, finish = self.find_start_and_goal()
+        start, finish = self.find_start_and_goal(image)
         return start, finish

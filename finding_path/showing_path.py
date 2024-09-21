@@ -13,7 +13,6 @@ def path_draw(path1, end, pict):
 
     path = []
     node = end
-    print(end)
     while node is not None:
         path.append(node)
         node = path1[node]

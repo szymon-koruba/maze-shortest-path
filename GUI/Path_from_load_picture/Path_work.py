@@ -4,7 +4,7 @@ from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from kivy.uix.image import Image
-from GUI.Path_from_load_picture.full_b_from_load_picture import full_path_load_pict
+from GUI.Path_from_load_picture.full_b_from_load_picture import CreatePath
 from threading import Thread
 
 
@@ -54,7 +54,8 @@ class PathScreen(FloatLayout):
 
     def full_function_works(self, instance):
         def load_image():
-            image_path = full_path_load_pict()
+            cp = CreatePath()
+            image_path = cp.full_path_load_pict()
             Clock.schedule_once(lambda dt: self.update_image(image_path), 0)
 
         thread = Thread(target=load_image)
