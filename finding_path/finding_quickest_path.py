@@ -1,8 +1,10 @@
 import networkx as nxt
 
+
 class FindQuickestPath:
     def __init__(self):
         pass
+
     def binary_image_to_graph(self, image):
         gph = nxt.Graph()
         rows, cols = image.shape

@@ -4,9 +4,9 @@ from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from kivy.uix.image import Image
-from GUI.Path_from_load_picture.full_b_from_load_picture import CreatePath
-from threading import Thread
+from GUI.Path_from_photo.full_b_from_made_picture import CreatePath
 import os
+
 
 
 class PathScreen(FloatLayout):
@@ -59,23 +59,18 @@ class PathScreen(FloatLayout):
         self.add_widget(button_layout)
 
     def full_function_works(self, instance):
-        def load_image():
-            cp = CreatePath()
-            image_path = cp.full_path_load_pict()
-            Clock.schedule_once(lambda dt: self.update_image(image_path), 0)
-
-        thread = Thread(target=load_image)
-        thread.start()
+        cp = CreatePath()
+        image_path = cp.full_path_load_pict()
+        Clock.schedule_once(lambda dt: self.update_image(image_path), 0)
 
     def update_image(self, image_path):
         if self.image_widget:
             self.image_widget.source = image_path
         else:
             self.image_widget = Image(size=(600, 600), size_hint=(None, None),
-                                     pos_hint={'center_x': 0.5, 'center_y': 0.6},
-                                     source=image_path)
+                                      pos_hint={'center_x': 0.5, 'center_y': 0.6},
+                                      source=image_path)
             self.image_layout.add_widget(self.image_widget)
-
 
     def back_main(self, instance):
         self.clear_widgets()

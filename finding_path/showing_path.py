@@ -1,5 +1,5 @@
-import numpy as np
 from skimage.draw import line
+
 
 def path_draw(path1, end, pict):
 
@@ -32,4 +32,3 @@ def path_draw(path1, end, pict):
                         pict[r+wide_r, c+wide_c] = [0, 0, 255]
 
     return pict
-

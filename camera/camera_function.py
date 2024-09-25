@@ -1,5 +1,6 @@
 import cv2
 import os
+from datetime import datetime
 
 
 class Camera:
@@ -14,7 +15,6 @@ class Camera:
         self.drawing = False
         self.x, self.y, self.w, self.h = 100, 100, 200, 200
 
-
     def get_camera_source(self):
         cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
         if not cap.isOpened():
@@ -26,7 +26,9 @@ class Camera:
         return self.ret, self.frame
 
     def make_screen(self):
-        self.filename = f'screen_{self.screenshot_counter}.jpg'
+        c = datetime.now()
+        a = c.date()
+        self.filename = f'screen_{self.screenshot_counter}_{a}.jpg'
         self.screen = (cv2.imwrite(self.filename, self.frame))
         self.screenshot_counter += 1
         self.screen_save()
@@ -34,6 +36,5 @@ class Camera:
     def screen_save(self):
         if self.screen:
             folder_path = os.path.join(os.getcwd(), 'screens')
-            os.makedirs(folder_path, exist_ok=True)
             file_path = os.path.join(folder_path, self.filename)
             os.rename(self.filename, file_path)

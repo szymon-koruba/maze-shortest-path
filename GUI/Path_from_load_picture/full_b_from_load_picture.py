@@ -5,13 +5,16 @@ from finding_path import finding_quickest_path as fqp
 from finding_path import showing_path as sp
 from tkinter import filedialog
 import tkinter as tk
-import threading
 import tempfile
 import cv2
+import os
+import networkx
 
-class CreatePath():
+
+class CreatePath:
     def __init__(self):
         pass
+
     def load_pict(self):
         root = tk.Tk()
         root.lift()
@@ -26,19 +29,30 @@ class CreatePath():
         up, left, down, right, bin_pict, picture, main_pict = photo_form.full_form_image(file_path)
 
         photo_form_full = oc.NewStartEndPath()
-        pict_af_form = photo_form_full.full_class_work(up, down, right, left, picture, bin_pict)
+        try:
+            pict_af_form = photo_form_full.full_class_work(up, down, right, left, picture, bin_pict)
+        except IndexError:
+            return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'gate.jpg')
+        else:
+            start_and_end_find = fsae.FindingBestWayOut()
+            start, end = start_and_end_find.full_start_and_end(pict_af_form)
 
-        start_and_end_find = fsae.FindingBestWayOut()
-        start, end = start_and_end_find.full_start_and_end(pict_af_form)
+            if start is None and end is None:
+                return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'gate.jpg')
+            else:
+                find_path = fqp.FindQuickestPath()
+                graph = find_path.binary_image_to_graph(pict_af_form)
 
-        find_path = fqp.FindQuickestPath()
-        graph = find_path.binary_image_to_graph(pict_af_form)
-        fastest_path = find_path.dijkstra(graph, start, end)
+                try:
+                    fastest_path = find_path.dijkstra(graph, start, end)
+                except networkx.exception.NetworkXError:
+                    return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'gate.jpg')
+                else:
 
-        show_path = sp.path_draw(fastest_path, end, main_pict)
+                    show_path = sp.path_draw(fastest_path, end, main_pict)
 
-        temp_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
-        temp_file_path = temp_file.name
-        cv2.imwrite(temp_file_path, show_path)
+                    temp_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+                    temp_file_path = temp_file.name
+                    cv2.imwrite(temp_file_path, show_path)
 
-        return temp_file_path
+                    return temp_file_path
