@@ -105,9 +105,9 @@ class CameraScreen(GridLayout):
 
         btn_find_path = Button(size_hint=(None, None), size=(245, 150),
                                background_normal=os.path.join(os.path.dirname(__file__),
-                                                              '..', 'graphics', 'button_back.png'),
+                                                              '..', 'graphics', 'button_load_photo.png'),
                                background_down=os.path.join(os.path.dirname(__file__),
-                                                            '..', 'graphics', 'button_back_down.png'),
+                                                            '..', 'graphics', 'button_load_photo_down.png'),
                                pos_hint={'center_x': 0.8, 'center_y': 0.4})
         btn_find_path.bind(on_press=Clock.create_trigger(self.show_path_screen))
 
@@ -131,7 +131,6 @@ class CameraScreen(GridLayout):
 
     def show_camera_screen(self):
         self.clear_widgets()
-        self.background()
 
         self.cam = Camera()
         if self.cam.get_camera_source() is not None:

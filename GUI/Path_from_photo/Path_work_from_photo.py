@@ -4,6 +4,7 @@ from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from kivy.uix.image import Image
+from kivy.app import App
 from GUI.Path_from_photo.full_b_from_made_picture import CreatePath
 import os
 
@@ -50,11 +51,20 @@ class PathScreen(FloatLayout):
                                                          '..', 'graphics', 'button_back.png'),
                           background_down=os.path.join(os.path.dirname(__file__),
                                                        '..', 'graphics', 'button_back_down.png'),
-                          pos_hint={'center_x': 0.83, 'center_y': 1.5})
+                          pos_hint={'center_x': 0.18, 'center_y': 1.5})
         btn_back.bind(on_press=Clock.create_trigger(self.back_main, timeout=0.2))
+
+        btn_exit = Button(size_hint=(None, None), size=(196, 120),
+                          background_normal=os.path.join(os.path.dirname(__file__),
+                                                         '..', 'graphics', 'button_exit.png'),
+                          background_down=os.path.join(os.path.dirname(__file__),
+                                                       '..', 'graphics', 'button_exit_down.png'),
+                          pos_hint={'center_x': 0.83, 'center_y': 1.5})
+        btn_exit.bind(on_press=Clock.create_trigger(self.exit_app, timeout=0.2))
 
         button_layout.add_widget(btn_back)
         button_layout.add_widget(btn_path)
+        button_layout.add_widget(btn_exit)
 
         self.add_widget(button_layout)
 
@@ -71,6 +81,9 @@ class PathScreen(FloatLayout):
                                       pos_hint={'center_x': 0.5, 'center_y': 0.6},
                                       source=image_path)
             self.image_layout.add_widget(self.image_widget)
+
+    def exit_app(self, instance):
+        App.get_running_app().stop()
 
     def back_main(self, instance):
         self.clear_widgets()

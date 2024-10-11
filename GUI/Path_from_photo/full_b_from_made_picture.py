@@ -27,7 +27,7 @@ class CreatePath:
     def full_path_load_pict(self):
         file_path = self.load_photo()
         if file_path is None:
-            return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'gate.jpg')
+            return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'Error_no_photo.png')
         else:
             photo_form = ff.FormattingFunction()
             up, left, down, right, bin_pict, picture, main_pict = photo_form.full_form_image(file_path)
@@ -38,13 +38,13 @@ class CreatePath:
             try:
                 pict_af_form = photo_form_full.full_class_work(up, down, right, left, picture, bin_pict)
             except IndexError:
-                return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'gate.jpg')
+                return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'Error_during_program.png')
             else:
 
                 start_and_end_find = fsae.FindingBestWayOut()
                 start, end = start_and_end_find.full_start_and_end(pict_af_form)
                 if start is None and end is None:
-                    return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'gate.jpg')
+                    return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'Error_during_program.png')
                 else:
                     find_path = fqp.FindQuickestPath()
                     graph = find_path.binary_image_to_graph(pict_af_form)
@@ -52,7 +52,7 @@ class CreatePath:
                     try:
                         fastest_path = find_path.dijkstra(graph, start, end)
                     except networkx.exception.NetworkXError:
-                        return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'gate.jpg')
+                        return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'Error_during_program.png')
                     else:
 
                         show_path = sp.path_draw(fastest_path, end, main_pict)
