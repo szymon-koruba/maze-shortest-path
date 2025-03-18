@@ -38,3 +38,7 @@ class Camera:
             folder_path = os.path.join(os.getcwd(), 'screens')
             file_path = os.path.join(folder_path, self.filename)
             os.rename(self.filename, file_path)
+            if not os.path.exists(folder_path):
+                os.makedirs(folder_path)
+
+

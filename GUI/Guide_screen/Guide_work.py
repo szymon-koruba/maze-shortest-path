@@ -24,7 +24,7 @@ class GuideScreen(FloatLayout):
 
         with self.canvas.before:
             self.rect = Rectangle(source=os.path.join(os.path.dirname(__file__),
-                                                      '..', 'graphics', 'background_2.png'), pos=self.pos)
+                                                      '..', 'assets', 'background_2.png'), pos=self.pos)
             self.bind(size=self.update_background, pos=self.update_background)
 
     def update_background(self, *args):
@@ -34,7 +34,7 @@ class GuideScreen(FloatLayout):
     def guide_steps(self):
         img = Image(size_hint=(2, 1), size=(200, 200), pos_hint={'center_x': 0.8, 'center_y': 0.2},
                     source=os.path.join(os.path.dirname(__file__),
-                                        '..', 'graphics', 'gate.jpg'))
+                                        '..', 'assets', 'gate.jpg'))
         self.add_widget(img)
 
     def buttons(self):
@@ -43,9 +43,9 @@ class GuideScreen(FloatLayout):
 
         btn_back = Button(size_hint=(None, None), size=(242, 120),
                           background_normal=os.path.join(os.path.dirname(__file__),
-                                                         '..', 'graphics', 'button_back.png'),
+                                                         '..', 'assets', 'button_back.png'),
                           background_down=os.path.join(os.path.dirname(__file__),
-                                                       '..', 'graphics', 'button_back_down.png'),
+                                                       '..', 'assets', 'button_back_down.png'),
                           pos_hint={'center_x': 0.7, 'center_y': 0.1})
         btn_back.bind(on_press=Clock.create_trigger(self.back_main, timeout=0.2))
 

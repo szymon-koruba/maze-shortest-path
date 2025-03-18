@@ -8,6 +8,7 @@ from kivy.uix.image import Image
 from kivy.graphics.texture import Texture
 from camera.camera_function import Camera
 from GUI.Path_from_photo.Path_work_from_photo import PathScreen
+from GUI.resource_graphics import resource_path as rp
 import cv2
 import os
 
@@ -61,8 +62,7 @@ class CameraScreen(GridLayout):
 
     def background(self):
         with self.canvas.before:
-            self.rect = Rectangle(source=os.path.join(os.path.dirname(__file__),
-                                                      '..', 'graphics', 'background_2.png'), pos=self.pos)
+            self.rect = Rectangle(source=rp('assets/background_2.png'), pos=self.pos)
             self.bind(size=self.update_background, pos=self.update_background)
 
     def update_background(self, *args):
@@ -73,10 +73,8 @@ class CameraScreen(GridLayout):
         button_layout = FloatLayout(size_hint=(1, 1))
         self.bind(size=self.update_background, pos=self.update_background)
         btn_back = Button(size_hint=(None, None), size=(196, 120),
-                          background_normal=os.path.join(os.path.dirname(__file__),
-                                                         '..', 'graphics', 'button_back.png'),
-                          background_down=os.path.join(os.path.dirname(__file__),
-                                                       '..', 'graphics', 'button_back_down.png'),
+                          background_normal=rp('assets/button_back.png'),
+                          background_down=rp('assets/button_back_down.png'),
                           pos_hint={'center_x': 0.2, 'center_y': 0.4})
         btn_back.bind(on_press=Clock.create_trigger(self.back_main, timeout=0.2))
 
@@ -88,26 +86,20 @@ class CameraScreen(GridLayout):
         button_layout = FloatLayout(size_hint=(1, 1))
         self.bind(size=self.update_background, pos=self.update_background)
         btn_back = Button(size_hint=(None, None), size=(196, 120),
-                          background_normal=os.path.join(os.path.dirname(__file__),
-                                                         '..', 'graphics', 'button_back.png'),
-                          background_down=os.path.join(os.path.dirname(__file__),
-                                                       '..', 'graphics', 'button_back_down.png'),
+                          background_normal=rp('assets/button_back.png'),
+                          background_down=rp('assets/button_back_down.png'),
                           pos_hint={'center_x': 0.2, 'center_y': 0.4})
         btn_back.bind(on_press=Clock.create_trigger(self.back_main, timeout=0.2))
 
         btn_make_photo = Button(size_hint=(None, None), size=(245, 150),
-                                background_normal=os.path.join(os.path.dirname(__file__),
-                                                               '..', 'graphics', 'button_screen.png'),
-                                background_down=os.path.join(os.path.dirname(__file__),
-                                                             '..', 'graphics', 'button_screen_down.png'),
+                                background_normal=rp('assets/button_screen.png'),
+                                background_down=rp('assets/button_screen_down.png'),
                                 pos_hint={'center_x': 0.5, 'center_y': 0.4})
         btn_make_photo.bind(on_press=Clock.create_trigger(self.screen_button_work))
 
         btn_find_path = Button(size_hint=(None, None), size=(245, 150),
-                               background_normal=os.path.join(os.path.dirname(__file__),
-                                                              '..', 'graphics', 'button_load_photo.png'),
-                               background_down=os.path.join(os.path.dirname(__file__),
-                                                            '..', 'graphics', 'button_load_photo_down.png'),
+                               background_normal=rp('assets/button_load_photo.png'),
+                               background_down=rp('assets/button_load_photo_down.png'),
                                pos_hint={'center_x': 0.8, 'center_y': 0.4})
         btn_find_path.bind(on_press=Clock.create_trigger(self.show_path_screen))
 
@@ -120,7 +112,7 @@ class CameraScreen(GridLayout):
     def camera_not_available(self):
         picture_layout = FloatLayout(size_hint=(1, 1))
         img = Image(size=(200, 200), pos_hint={'center_x': 0.5, 'center_y': 0.2},
-                    source=os.path.join(os.path.dirname(__file__),'..', 'graphics', 'no_signal_picture.png'))
+                    source=rp('assets/no_signal_picture.png'))
         picture_layout.add_widget(img)
         self.add_widget(picture_layout)
 

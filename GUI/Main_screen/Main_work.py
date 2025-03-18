@@ -6,6 +6,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 from GUI.Guide_screen.Guide_work import GuideScreen
 from GUI.Choosing_screen.Chooseing_work import ChooseScreen
+from GUI.resource_graphics import resource_path as rp
 import os
 
 
@@ -22,7 +23,7 @@ class MainScreen(FloatLayout):
 
     def background(self):
         with self.canvas.before:
-            self.rect = Rectangle(source=os.path.join(os.path.dirname(__file__), '..', 'graphics', 'background.png'),
+            self.rect = Rectangle(source=rp('assets/background.png'),
                                   pos=self.pos)
             self.bind(size=self.update_background, pos=self.update_background)
 
@@ -35,34 +36,26 @@ class MainScreen(FloatLayout):
         self.bind(size=self.update_background, pos=self.update_background)
 
         btn_start = Button(size_hint=(None, None), size=(327, 200),
-                           background_normal=os.path.join(os.path.dirname(__file__),
-                                                          '..', 'graphics', 'button_start.png'),
-                           background_down=os.path.join(os.path.dirname(__file__),
-                                                        '..', 'graphics', 'button_start_down.png'),
+                           background_normal=rp('assets/button_start.png'),
+                           background_down=rp('assets/button_start_down.png'),
                            pos_hint={'center_x': 0.5, 'center_y': 0.58})
         btn_start.bind(on_press=Clock.create_trigger(self.show_load_photo_screen, timeout=0.2))
 
         btn_settings = Button(size_hint=(None, None), size=(327, 200),
-                              background_normal=os.path.join(os.path.dirname(__file__),
-                                                             '..', 'graphics', 'button_settings.png'),
-                              background_down=os.path.join(os.path.dirname(__file__),
-                                                           '..', 'graphics', 'button_settings_down.png'),
+                              background_normal=rp('assets/button_settings.png'),
+                              background_down=rp('assets/button_settings_down.png'),
                               pos_hint={'center_x': 0.5, 'center_y': 0.4})
         btn_settings.bind()
 
         btn_guide = Button(size_hint=(None, None), size=(327, 200),
-                           background_normal=os.path.join(os.path.dirname(__file__),
-                                                          '..', 'graphics', 'button_guide.png'),
-                           background_down=os.path.join(os.path.dirname(__file__),
-                                                        '..', 'graphics', 'button_guide_down.png'),
+                           background_normal=rp('assets/button_guide.png'),
+                           background_down=rp('assets/button_guide_down.png'),
                            pos_hint={'center_x': 0.5, 'center_y': 0.22})
         btn_guide.bind(on_press=Clock.create_trigger(self.show_guide_screen, timeout=0.2))
 
         btn_exit = Button(size_hint=(None, None), size=(196, 120),
-                          background_normal=os.path.join(os.path.dirname(__file__),
-                                                         '..', 'graphics', 'button_exit.png'),
-                          background_down=os.path.join(os.path.dirname(__file__),
-                                                       '..', 'graphics', 'button_exit_down.png'),
+                          background_normal=rp('assets/button_exit.png'),
+                          background_down=rp('assets/button_exit_down.png'),
                           pos_hint={'center_x': 0.83, 'center_y': 0.17})
         btn_exit.bind(on_press=Clock.create_trigger(self.exit_app, timeout=0.2))
 

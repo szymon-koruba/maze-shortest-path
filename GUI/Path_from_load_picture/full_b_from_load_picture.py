@@ -1,8 +1,5 @@
-from photo_form import form_functions as ff
-from photo_form import outer_contour as oc
-from finding_path import Finding_start_and_end as fsae
-from finding_path import finding_quickest_path as fqp
-from finding_path import showing_path as sp
+from photo_form import outer_contour as oc, form_functions as ff
+from finding_path import showing_path as sp, finding_quickest_path as fqp, Finding_start_and_end as fsae
 from tkinter import filedialog
 import tkinter as tk
 import tempfile
@@ -32,21 +29,21 @@ class CreatePath:
         try:
             pict_af_form = photo_form_full.full_class_work(up, down, right, left, picture, bin_pict)
         except IndexError:
-            return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'Error_no_photo.png')
+            return os.path.join('assets', 'Error_no_photo.png')
         else:
             start_and_end_find = fsae.FindingBestWayOut()
             start, end = start_and_end_find.full_start_and_end(pict_af_form)
 
             if start is None and end is None:
-                return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'Error_during_program.png')
+                return os.path.join('assets', 'Error_during_program.png')
             else:
                 find_path = fqp.FindQuickestPath()
                 graph = find_path.binary_image_to_graph(pict_af_form)
 
                 try:
-                    fastest_path = find_path.dijkstra(graph, start, end)
+                    fastest_path = find_path.a_star(graph, start, end)
                 except networkx.exception.NetworkXError:
-                    return os.path.join(os.path.dirname(__file__), '..', 'graphics', 'Error_during_program.png')
+                    return os.path.join('assets', 'Error_during_program.png')
                 else:
 
                     show_path = sp.path_draw(fastest_path, end, main_pict)

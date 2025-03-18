@@ -1,7 +1,4 @@
 import numpy as np
-from photo_form import form_functions as ff
-import cv2
-
 
 
 class NewStartEndPath:
